@@ -7,7 +7,7 @@ store that can handle actions and side-effects.
 
 This example is based on the example from https://github.com/jsiwhitehead/refluent where we create a component which renders a text field, with optional initial label and hoverable submit button, which will only call the parent submit function (whatever that may be) if the value is below 100 characters.
 
-```
+```javascript
 import Component from "./component";
 import Store from "./store";
 
