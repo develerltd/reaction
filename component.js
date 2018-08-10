@@ -24,7 +24,7 @@ export default class Component {
       }
 
       render() {
-        return current.trigger("render")[0];
+        return current.triggerFirst("render");
       }
     };
 
@@ -43,9 +43,14 @@ export default class Component {
     let connected;
     const current = this;
 
-    if (mapper) {
+    if (typeof mapper === "function") {
       connected = (newState) => {
-        current.currentInstance.setState(mapper(newState));
+        current.currentInstance.setState(mapper(newState, current.currentInstance.props));
+      };        
+    } else if (typeof mapper === "object" && mapper.type === "filter") {
+      connected = (newState) => {
+        const mapper = store.filters[mapper.name];
+        current.currentInstance.setState(mapper(newState, current.currentInstance.props, ...mapper.args));
       };
     } else {
       connected = (newState) => {
@@ -95,6 +100,14 @@ export default class Component {
         return cb(currentInstance.state, currentInstance.props, ...args);
       });
     }
+  }
+
+  triggerFirst(event, ...args) {
+    const currentInstance = this.currentInstance;
+    if (this.events.hasOwnProperty(event)) {
+      const cb = this.events[event][0];
+      return cb(currentInstance.state, currentInstance.props, ...args);
+    }    
   }
 
   export() {

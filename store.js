@@ -2,9 +2,24 @@ export default class Store {
   constructor(initialState) {
     this.state = initialState || {};
     this.actions = {};
+    this.filters = {};
     this.events = {};
     this.callbacks = [];
     this.triggerAction = this.triggerAction.bind(this);
+  }
+
+  filter(name, cb) {
+    this.filters[name] = cb;
+  }
+
+  getFilter(name, ...args) {
+    if (this.filters.hasOwnProperty(name)) {
+      return {
+        type: "filter",
+        name,
+        args
+      }
+    }
   }
 
   triggerAction(name, ...args) {
