@@ -7,18 +7,18 @@ import Footer from "footer-component";
 
 const App = new Component();
 
-App.addStore(TodoStore$, (state) => {
-	return {
-		total: Object.keys(state).length
-	};
+App.addStore(TodoStore$, state => {
+  return {
+    total: Object.keys(state).length
+  };
 });
 
-App.on("render",(state) => (
-	<div>
-		<Header />
-		{state.total > 0 && <MainSection />}
-		<Footer />
-	</div>
+App.on("render", state => (
+  <div>
+    <Header />
+    {state.total > 0 && <MainSection />}
+    <Footer />
+  </div>
 ));
 
 export default App.export();
