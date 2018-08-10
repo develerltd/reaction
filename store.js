@@ -2,6 +2,7 @@ export default class Store {
   constructor(initialState) {
     this.state = initialState || {};
     this.actions = {};
+    this.events = {};
     this.callbacks = [];
     this.triggerAction = this.triggerAction.bind(this);
   }
@@ -15,11 +16,32 @@ export default class Store {
       });
     }
 
+    if (this.events.hasOwnProperty(name)) {
+      this.events[name].forEach(cb => {
+        cb(this.state, this.triggerAction, ...args);
+      });
+    }
+
     return this;
   }
 
   action(action, mutator) {
     this.actions[action] = mutator;
+    return this;
+  }
+
+  on(event, cb) {
+    if (!this.events.hasOwnProperty(event)) {
+      this.events[event] = [];
+    }
+    this.events[event].push(cb);
+
+    return this;
+  }
+
+  off(event, cb) {
+    const events = this.events[event].filter(item => item === cb);
+    this.events[event] = events;
     return this;
   }
 
