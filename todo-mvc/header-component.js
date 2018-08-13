@@ -1,5 +1,5 @@
 import Component from "component";
-import TodoStore$ from "todo-store";
+import Todo$ from "todo-store";
 import TodoTextInput from "todo-text-input-component";
 
 const Header = new Component();
@@ -17,7 +17,7 @@ Header.on("render", state => (
 ));
 
 Header.on("save", (state, props, text) => {
-  TodoStore$.triggerAction("CREATE", text);
+  Todo$.triggerAction("CREATE", text);
 });
 
 export default Header.export();
