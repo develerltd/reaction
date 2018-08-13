@@ -1,10 +1,10 @@
 import React from "react";
 import Component from "component";
-import TodoStore$ from "todo-store";
+import Todo$ from "todo-store";
 
 const Footer = new Component();
 
-Footer.addStore(TodoStore$, TodoStore$.getFilter("STATISTICS"));
+Footer.addStore(Todo$, Todo$.getFilter("STATISTICS"));
 
 Footer.on("render", (state, props) => (
   <footer id="footer">
@@ -21,7 +21,7 @@ Footer.on("render", (state, props) => (
 ));
 
 Footer.on("click", () => {
-  TodoStore$.triggerAction("DESTROY_COMPLETED");
+  Todo$.triggerAction("DESTROY_COMPLETED");
 });
 
 export default Footer.export();
