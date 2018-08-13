@@ -78,3 +78,58 @@ Though of course this is entirely up to you, the following coding conventions ar
 4) No mapping is performed in the render function. The render function where possible should just be a pure JSX render tree. All mappings are placed into the addStore mappers.
 
 5) Components never use setState. All state settings are handled by attaching stores to a component. Either global ones or local ones (that can be either created in the same file).
+
+# API
+
+## Store
+
+### Instantiate
+
+```javascript
+const Store$ = new Store({initialState});
+```
+
+This creates a new store, with the initial state set to whatever you pass in.
+
+### Action
+
+```javascript
+Store$.action("INIT", (oldState, ...args) => ({...oldState, ...args}));
+```
+
+This performs an action which updates the state of the component, fires any listener events and any connected components are updated.
+
+### On
+
+```javascript
+Store$.on("UPDATE", (state, trigger, ...args) => {
+  const response = await fetch("/api/call");
+  trigger("SET", response);
+});
+```
+
+This performs any function that can result in multiple actions, such as ajax calls or other side effects.
+
+### TriggerAction
+
+```javascript
+Store$.triggerAction("INIT", a, b, c);
+```
+
+This fires the selected action, or associated "ON" event. The arguments are appended to the action function after the original state variable. The arguments are appended to any listener functions after the currentState, and this function.
+
+### Connect
+
+```javascript
+Store$.connect(cb);
+```
+
+Calls this callback whenever the store is updated.
+
+### Disconnect
+```javascript
+Store$.disconnect(cb);
+```
+
+Removes the callback from being called (must be the same callback as in connect)
+
