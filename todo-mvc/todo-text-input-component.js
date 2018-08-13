@@ -23,26 +23,26 @@ TodoTextInput.on("render", (state, props) => (
     type="text"
     id={props.id}
     placeholder={props.placeholder}
-    onChange={TodoTextInput.generate("CHANGE")}
-    onBlur={TodoTextInput.generate("SAVE")}
-    onKeyDown={TodoTextInput.generate("KEY_DOWN")}
+    onChange={TodoTextInput.generate("change")}
+    onBlur={TodoTextInput.generate("save")}
+    onKeyDown={TodoTextInput.generate("key_down")}
     value={state.text}
     autoFocus={true}
     className={props.className}
   />
 ));
 
-TodoTextInput.on("CHANGE", (state, props, e) =>
+TodoTextInput.on("change", (state, props, e) =>
   InputStore$.action("UPDATE", e.target.value)
 );
 
-TodoTextInput.on("KEY_DOWN", (state, props, e) => {
+TodoTextInput.on("key_down", (state, props, e) => {
   if (e.keyCode === ENTER_KEY_CODE) {
-    TodoTextInput.trigger("SAVE");
+    TodoTextInput.trigger("save");
   }
 });
 
-TodoTextInput.on("SAVE", (state, props) => {
+TodoTextInput.on("save", (state, props) => {
   props.onSave(state.text);
   InputStore$.action("UPDATE", "");
 });
