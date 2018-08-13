@@ -32,30 +32,31 @@ TodoItem.on("render", state => (
         className="toggle"
         type="checkbox"
         checked={state.completed}
-        onChange={TodoItem.generate("CHANGE")}
+        onChange={TodoItem.generate("change")}
       />
-      <label onDoubleClick={TodoItem.generate("DOUBLE_CLICK")}>
+      <label onDoubleClick={TodoItem.generate("double_click")}>
         {state.text}
       </label>
-      <button className="destroy" onClick={TodoItem.generate("CLICK")} />
+      <button className="destroy" onClick={TodoItem.generate("click")} />
     </div>
     {state.isEditing && (
       <TodoTextInput
         className="edit"
-        onSave={TodoItem.generate("SAVE")}
+        onSave={TodoItem.generate("save")}
         value={state.text}
       />
     )}
   </li>
 ));
 
-TodoItem.on("CHANGE", (state, props) =>
+TodoItem.on("change", (state, props) =>
   TodoStore$.trigger("TOGGLE_COMPLETE", props.id)
 );
-TodoItem.on("DOUBLE_CLICK", () => TodoItemStore$.trigger("EDITING"));
-TodoItem.on("CLICK", (state, props) => TodoStore$.trigger("DESTROY", props.id));
-TodoItem.on("SAVE", (state, props, text) =>
+TodoItem.on("double_click", () => TodoItemStore$.trigger("EDITING"));
+TodoItem.on("click", (state, props) => TodoStore$.trigger("DESTROY", props.id));
+TodoItem.on("save", (state, props, text) =>
   TodoStore$.trigger("UPDATE", props.id, text)
+  TodoItemStore$.trigger("NOT_EDITING");
 );
 
 export default TodoItem.export();
