@@ -1,13 +1,13 @@
 import React from "react";
 import Component from "component";
-import TodoStore$ from "todo-store";
+import Todo$ from "todo-store";
 import Header from "header-component";
 import MainSection from "main-section-component";
 import Footer from "footer-component";
 
 const App = new Component();
 
-App.addStore(TodoStore$, state => {
+App.addStore(Todo$, state => {
   return {
     total: Object.keys(state).length
   };
