@@ -60,3 +60,21 @@ ShortInput.on("leave", () => Hover$.action("UNHOVER"));
 
 export default ShortInput.export();
 ```
+
+# Example 2
+
+Example 2 is in the todomvc folder, and is a reworked version of https://github.com/vidyuthd/es6-react-todo
+
+# Coding conventions
+
+Though of course this is entirely up to you, the following coding conventions are recommended for usage:
+
+1) All store components are named in singular without the word "Store" and suffixed with a $.
+
+2) All store actions are upper snake cased (eg SET_COMPLETE).
+
+3) All generated component events are lower snake cased (eg double_click).
+
+4) No mapping is performed in the render function. The render function where possible should just be a pure JSX render tree. All mappings are placed into the addStore mappers.
+
+5) Components never use setState. All state settings are handled by attaching stores to a component. Either global ones or local ones (that can be either created in the same file).
