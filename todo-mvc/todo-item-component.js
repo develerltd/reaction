@@ -1,24 +1,24 @@
 import React from "react";
 import Component from "component";
-import TodoStore$ from "todo-store";
+import Todo$ from "todo-store";
 import Store from "store";
 import classNames from "classnames";
 import TodoTextInput from "todo-text-input-component";
 
-const TodoItemStore$ = new Store({
+const TodoItem$ = new Store({
   isEditing: false
 });
 
-TodoItemStore$.action("EDITING", { isEditing: true });
-TodoItemStore$.action("NOT_EDITING", { isEditing: false });
+TodoItem$.action("EDITING", { isEditing: true });
+TodoItem$.action("NOT_EDITING", { isEditing: false });
 
 const TodoItem = new Component();
 
-TodoItem.addStore(TodoStore$, (state, props) => {
+TodoItem.addStore(Todo$, (state, props) => {
   return state[props.id];
 });
 
-TodoItem.addStore(TodoItemStore$);
+TodoItem.addStore(TodoItem$);
 
 TodoItem.on("render", state => (
   <li
@@ -52,11 +52,11 @@ TodoItem.on("render", state => (
 TodoItem.on("change", (state, props) =>
   TodoStore$.trigger("TOGGLE_COMPLETE", props.id)
 );
-TodoItem.on("double_click", () => TodoItemStore$.trigger("EDITING"));
-TodoItem.on("click", (state, props) => TodoStore$.trigger("DESTROY", props.id));
+TodoItem.on("double_click", () => TodoItem$.trigger("EDITING"));
+TodoItem.on("click", (state, props) => Todo$.trigger("DESTROY", props.id));
 TodoItem.on("save", (state, props, text) =>
-  TodoStore$.trigger("UPDATE", props.id, text)
-  TodoItemStore$.trigger("NOT_EDITING");
+  Todo$.trigger("UPDATE", props.id, text)
+  TodoItem$.trigger("NOT_EDITING");
 );
 
 export default TodoItem.export();
