@@ -4,18 +4,18 @@ import Store from "store";
 
 const ENTER_KEY_CODE = 13;
 
-const InputStore$ = new Store({
+const Input$ = new Store({
   text: ""
 });
 
-InputStore$.action("UPDATE", (state, text) => {
+Input$.action("UPDATE", (state, text) => {
   text;
 });
 
 const TodoTextInput = new Component();
 
 TodoTextInput.on("constructor", (state, props) => {
-  InputStore$.trigger("UPDATE", props.value);
+  Input$.trigger("UPDATE", props.value);
 });
 
 TodoTextInput.on("render", (state, props) => (
@@ -33,7 +33,7 @@ TodoTextInput.on("render", (state, props) => (
 ));
 
 TodoTextInput.on("change", (state, props, e) =>
-  InputStore$.action("UPDATE", e.target.value)
+  Input$.action("UPDATE", e.target.value)
 );
 
 TodoTextInput.on("key_down", (state, props, e) => {
@@ -44,5 +44,5 @@ TodoTextInput.on("key_down", (state, props, e) => {
 
 TodoTextInput.on("save", (state, props) => {
   props.onSave(state.text);
-  InputStore$.action("UPDATE", "");
+  Input$.action("UPDATE", "");
 });
