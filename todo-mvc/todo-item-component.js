@@ -9,8 +9,8 @@ const TodoItem$ = new Store({
   isEditing: false
 });
 
-TodoItem$.action("EDITING", { isEditing: true });
-TodoItem$.action("NOT_EDITING", { isEditing: false });
+TodoItem$.action("EDITING", () => { isEditing: true });
+TodoItem$.action("NOT_EDITING", () => { isEditing: false });
 
 const TodoItem = new Component();
 
