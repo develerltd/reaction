@@ -79,6 +79,8 @@ Though of course this is entirely up to you, the following coding conventions ar
 
 5) Components never use setState. All state settings are handled by attaching stores to a component. Either global ones or local ones (that can be either created in the same file).
 
+6) Where possible if store's data needs to be mapped, create the mapper as a filter inside the store, and give it a meaningful name, rather than using a function in the component that needs the mapping.
+
 # API
 
 ## Store
