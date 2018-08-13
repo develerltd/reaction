@@ -4,9 +4,9 @@ function isComplete(state) {
   return Object.keys(state).every(key => state[key].complete);
 }
 
-const TodoStore$ = new Store({});
+const Todo$ = new Store({});
 
-TodoStore$.filter("ARE_ALL_COMPLETE", state => {
+Todo$.filter("ARE_ALL_COMPLETE", state => {
   const areAllComplete = isComplete(state);
   return {
     areAllComplete,
@@ -14,7 +14,7 @@ TodoStore$.filter("ARE_ALL_COMPLETE", state => {
   };
 });
 
-TodoStore$.filter("STATISTICS", state => {
+Todo$.filter("STATISTICS", state => {
   const total = Object.keys(state).length;
   const completedTodos = Object.keys(state).filter(key => state[key].complete)
     .length;
@@ -28,7 +28,7 @@ TodoStore$.filter("STATISTICS", state => {
   };
 });
 
-TodoStore$.action("CREATE", (state, text) => {
+Todo$.action("CREATE", (state, text) => {
   const id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
   return {
     ...state,
@@ -40,13 +40,13 @@ TodoStore$.action("CREATE", (state, text) => {
   };
 });
 
-TodoStore$.action("DESTROY", (state, id) => {
+Todo$.action("DESTROY", (state, id) => {
   const { [id]: removed, ...newState } = state;
 
   return newState;
 });
 
-TodoStore$.action("UPDATE", (state, id, feature) => ({
+Todo$.action("UPDATE", (state, id, feature) => ({
   ...state,
   [id]: {
     ...state[id],
@@ -54,29 +54,29 @@ TodoStore$.action("UPDATE", (state, id, feature) => ({
   }
 }));
 
-TodoStore$.on("UPDATE_ALL", (state, trigger, feature) => {
+Todo$.on("UPDATE_ALL", (state, trigger, feature) => {
   Object.keys(state).forEach(id => trigger("UPDATE", id, feature));
 });
 
-TodoStore$.on("DESTROY_COMPLETED", (state, trigger) => {
+Todo$.on("DESTROY_COMPLETED", (state, trigger) => {
   state
     .filter(item => item.complete)
     .forEach(item => trigger("DESTROY", item.id));
 });
 
-TodoStore$.on("UPDATE_TEXT", (state, trigger, id, text) => {
+Todo$.on("UPDATE_TEXT", (state, trigger, id, text) => {
   trigger("UPDATE", id, { text });
 });
 
-TodoStore$.on("COMPLETE", (state, trigger, id) => {
+Todo$.on("COMPLETE", (state, trigger, id) => {
   trigger("UPDATE", id, { complete: true });
 });
 
-TodoStore$.on("UNDO_COMPLETE", (state, trigger, id) => {
+Todo$.on("UNDO_COMPLETE", (state, trigger, id) => {
   trigger("UPDATE", id, { complete: true });
 });
 
-TodoStore$.on("TOGGLE_COMPLETE_ALL", (state, trigger) => {
+Todo$.on("TOGGLE_COMPLETE_ALL", (state, trigger) => {
   trigger("UPDATE_ALL", { complete: !isComplete(state) });
 });
 
