@@ -12,7 +12,7 @@ MainSection.on("render", (state, props) => (
     <input
       id="toggle-all"
       type="checkbox"
-      onChange={MainSection.generate("CHANGE")}
+      onChange={MainSection.generate("change")}
       checked={state.areAllComplete}
     />
     <label htmlFor="toggle-all">Mark all as complete</label>
@@ -24,6 +24,6 @@ MainSection.on("renderTodos", (state, props) =>
   Object.keys(state).map(key => <TodoItem key={key} id={key} />)
 );
 
-MainSection.on("CHANGE", () => {
+MainSection.on("change", () => {
   TodoStore$.triggerAction("TOGGLE_COMPLETE_ALL");
 });
